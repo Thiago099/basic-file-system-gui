@@ -1,0 +1,33 @@
+.icon{
+  font-size: 3em;
+  display: block;
+  text-align: center;
+}
+.folder-icon{
+  color: rgb(241, 195, 0);
+}
+.file-icon{
+  color: rgb(122, 122, 122);
+}
+.element-name{
+  display: inline-block;
+  text-align: center;
+  margin-top: 0.5em;
+  
+}
+.element{
+  display:inline-flex;
+  flex-direction: column;
+  width: 80px;
+  overflow: hidden;
+  cursor: pointer;
+  border-radius: 0.5em;
+  padding-top: 0.5em;
+  border: 1px solid transparent;
+  margin:1px;
+}
+.element-selected{
+  background-color: rgb(198, 241, 252);
+  border: 1px solid rgb(104, 163, 177);
+  color: rgb(13, 107, 151);
+}

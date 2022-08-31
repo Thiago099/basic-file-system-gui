@@ -1,0 +1,7 @@
+.rectangle{
+    position: fixed;
+    z-index: 9999;
+    border : 1px dashed rgb(0, 174, 255);
+    background-color: rgba(15, 179, 255, 0.1);
+    pointer-events: none;
+}
