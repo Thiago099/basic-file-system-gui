@@ -30,7 +30,7 @@ const elements = []
 elements.push(renderElement(app,'Folder 1', 'folder'))
 elements.push(renderElement(app,'Folder 2', 'folder'))
 elements.push(renderElement(app,'Long folder name', 'folder'))
-elements.push(renderElement(app,'File 3', 'file'))
+elements.push(renderElement(app,'File 1', 'file'))
 
 var ctrlPressed = false
 document.addEventListener('keydown',ev=>{

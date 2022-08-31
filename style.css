@@ -27,7 +27,7 @@
   margin:1px;
 }
 .element-selected{
-  background-color: rgb(198, 241, 252);
-  border: 1px solid rgb(104, 163, 177);
+  background-color: rgb(241, 249, 252);
+  border: 1px solid rgb(0, 217, 255);;
   color: rgb(13, 107, 151);
 }
