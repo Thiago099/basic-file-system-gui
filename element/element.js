@@ -52,7 +52,6 @@ export function renderElement(parent,name,type, events = {})
         }
     }],
     ()=>{
-        console.log(current.selected)
         if(!current.selected)
         {
             for(const element of elements)
