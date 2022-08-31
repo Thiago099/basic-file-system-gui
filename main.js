@@ -2,7 +2,17 @@
 import { renderElement } from './element/element'
 const app = document.querySelector('#app')
 
-renderElement(app,'Folder 1', 'folder')
-renderElement(app,'Folder 2', 'folder')
-renderElement(app,'Long folder name', 'folder')
-renderElement(app,'File 1', 'file')
+const events = {
+    open: () => {
+        alert('open')
+    },
+    delete: () => {
+        alert('delete')
+    }
+}
+
+
+renderElement(app,'Folder 1', 'folder',events)
+renderElement(app,'Folder 2', 'folder',events)
+renderElement(app,'Long folder name', 'folder',events)
+renderElement(app,'File 1', 'file',events)

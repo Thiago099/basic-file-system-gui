@@ -1,5 +1,6 @@
 import '@fortawesome/fontawesome-free/css/all.css'
 import './element.css'
+import { contextMenu } from './context-menu'
 
 const types = {
 'folder': ['fa-solid','fa-folder','folder-icon','icon'],
@@ -7,7 +8,7 @@ const types = {
 }
 const elements = []
 
-export function renderElement(parent,name,type)
+export function renderElement(parent,name,type, events = {})
 {
     const element = document.createElement('div')
     element.draggable = true
@@ -21,11 +22,29 @@ export function renderElement(parent,name,type)
     element.appendChild(elementName)
     parent.appendChild(element)
     elements.push(element)
+    
+    
+    element.addEventListener('dblclick', ev => {
+        if("open" in events)
+        events["open"]()
+    })
+    contextMenu(element,[
+        {
+        text:'<i class="fa-solid fa-play"></i> Open',
+        event:()=>{
+            if("open" in events)
+            events["open"]()
+        }
+    },
+    {
+        text:'<i class="fa-solid fa-trash"></i> Delete',
+        event:()=>{
+            if("delete" in events)
+            events["delete"]()
+        }
+    }])
 }
 import {areaSelectionTool} from './area-selection.js'
-
-
-
 
 var ctrlPressed = false
 document.addEventListener('keydown',ev=>{

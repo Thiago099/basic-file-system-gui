@@ -1,0 +1,27 @@
+.menu{
+    display: none;
+    position: fixed;
+    width: 200px;
+}
+.menu-item{
+    display: block;
+    text-align: center;
+    padding: 0.5em;
+    border-bottom: 1px solid rgb(192, 196, 197);
+    cursor: pointer;
+    background-color: rgb(241, 249, 252);
+    color: rgb(13, 107, 151);
+}
+.menu-item:first-child{
+    border-radius: 0.5em 0.5em 0 0;
+}
+.menu-item:last-child{
+    border-radius: 0 0 0.5em 0.5em;
+}
+.menu-item:only-child{
+    border-radius: 0.5em 0.5em 0.5em 0.5em;
+}
+
+.menu-item:hover{
+    background-color: rgb(219, 239, 253);
+}
