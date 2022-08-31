@@ -45,6 +45,13 @@ document.addEventListener('keyup',ev=>{
     ctrlPressed = false
   }
 })
+
+document.addEventListener('visibilitychange',()=>{
+  if(document.visibilityState === 'visible')
+  {
+    ctrlPressed = false
+  }
+})
 areaSelectionTool((left,top,right,bottom)=>{
   for(const element of elements)
   {
