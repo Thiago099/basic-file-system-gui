@@ -8,6 +8,9 @@ const events = {
     },
     delete: () => {
         alert('delete')
+    },
+    rename: () => {
+        alert('rename')
     }
 }
 

@@ -1,5 +1,5 @@
 import './context-menu.css';
-export function contextMenu(element, items)
+export function contextMenu(element, items, onopen)
 {
     const menu = document.createElement('div')
     menu.classList.add('menu')
@@ -19,13 +19,30 @@ export function contextMenu(element, items)
         if(!element.contains(e.target))
         menu.style.display = 'none';
     })
+    element.addEventListener('mousedown', e=>{
+        if(e.button === 2)
+        {
+            e.stopPropagation()
+            e.preventDefault()
+        }
+    } )
+    element.addEventListener('mouseup', e=>{
+        //right button
+        if(e.button === 2)
+        {
+            e.stopPropagation()
+            e.preventDefault()
+        }
+    })
+
     element.addEventListener("contextmenu", function(e) {      
         e.preventDefault();         
         // show the menu        
         menu.style.display = 'block';
         // set the left and top position based on mouse event coordonates
         menu.style.left = e.x + 'px';
-        menu.style.top = e.y + 'px';        
+        menu.style.top = e.y + 'px';     
+        onopen()   
     });
 
     // close the menu on document click

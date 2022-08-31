@@ -49,21 +49,24 @@ export function areaSelectionTool(callback)
         update_rectangle()
         
     }
-    document.onmousedown = (ev)=>{
-        ev.preventDefault()
-        const {clientX, clientY} = ev
-        x = clientX
-        y = clientY
-        left = clientX
-        top = clientY
-        width = 0
-        height = 0
-        document.onmousemove = mousemove
-        drag = true
-        update_rectangle()
+    document.addEventListener('mousedown', (ev)=>{
+        if(ev.button === 0)
+        {
+            ev.preventDefault()
+            const {clientX, clientY} = ev
+            x = clientX
+            y = clientY
+            left = clientX
+            top = clientY
+            width = 0
+            height = 0
+            document.addEventListener('mousemove', mousemove)
+            drag = true
+            update_rectangle()
+        }
     
-    }
-    document.onmouseup = (ev)=>{
+    })
+    document.addEventListener('mouseup',(ev)=>{
         const {clientX, clientY} = ev
         let left, top, right, bottom
         if(clientX > x)
@@ -88,10 +91,10 @@ export function areaSelectionTool(callback)
         }
         
         
-        document.onmousemove = null
+        document.removeEventListener('mousemove', mousemove)
         drag = false
         update_rectangle()
         rectangle.style.display = 'none'
         callback(left, top, right, bottom)
-    }
+    })
 }

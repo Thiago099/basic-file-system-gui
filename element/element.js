@@ -21,7 +21,8 @@ export function renderElement(parent,name,type, events = {})
     elementName.innerText = name
     element.appendChild(elementName)
     parent.appendChild(element)
-    elements.push(element)
+    const current = {element,selected:false}
+    elements.push(current)
     
     
     element.addEventListener('dblclick', ev => {
@@ -29,20 +30,40 @@ export function renderElement(parent,name,type, events = {})
         events["open"]()
     })
     contextMenu(element,[
-        {
-        text:'<i class="fa-solid fa-play"></i> Open',
+    {
+        text:'<span style="color:#0c0"><i class="fa-solid fa-play"></i> Open</span>',
         event:()=>{
             if("open" in events)
             events["open"]()
         }
     },
     {
-        text:'<i class="fa-solid fa-trash"></i> Delete',
+        text:'<i class="fa-solid fa-pen"></i> Rename',
+        event:()=>{
+            if("rename" in events)
+            events["rename"]()
+        }
+    },
+    {
+        text:'<span style="color:#c00"><i class="fa-solid fa-trash"></i> Delete</span>',
         event:()=>{
             if("delete" in events)
             events["delete"]()
         }
-    }])
+    }],
+    ()=>{
+        console.log(current.selected)
+        if(!current.selected)
+        {
+            for(const element of elements)
+            {
+                element.element.classList.remove('element-selected')
+                element.selected = false
+            }
+            current.selected = true
+            element.classList.add('element-selected')
+        }
+    })
 }
 import {areaSelectionTool} from './area-selection.js'
 
@@ -67,34 +88,39 @@ document.addEventListener('visibilitychange',()=>{
     }
 })
 areaSelectionTool((left,top,right,bottom)=>{
-    for(const element of elements)
+    for(const current of elements)
     {
+        const element = current.element
         // get element left top right and bottom
         const {offsetLeft,offsetTop,offsetWidth,offsetHeight} = element
         if(offsetLeft > right || offsetLeft + offsetWidth < left || offsetTop > bottom || offsetTop + offsetHeight < top)
         {
-        if(!ctrlPressed)
-        {
-            element.classList.remove('element-selected')
-        }
-        }
-        else
-        {
-        if(ctrlPressed)
-        {
-            if(element.classList.contains('element-selected'))
+            if(!ctrlPressed)
             {
-            element.classList.remove('element-selected')
+                current.selected = false
+                element.classList.remove('element-selected')
+            }
             }
             else
             {
-            element.classList.add('element-selected')
-            }
-        }
-        else
-        {
-            element.classList.add('element-selected')
-        }
+                if(ctrlPressed)
+                {
+                    if(element.classList.contains('element-selected'))
+                    {
+                        element.classList.remove('element-selected')
+                        current.selected = false
+                    }
+                    else
+                    {
+                        element.classList.add('element-selected')
+                        current.selected = true
+                    }
+                }
+                else
+                {
+                    element.classList.add('element-selected')
+                    current.selected = true
+                }
         }
     }
 })
