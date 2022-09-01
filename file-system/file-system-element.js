@@ -57,7 +57,7 @@ export function renderElement(parent,name,type, events = {})
         clicked = true
         setTimeout(()=>{
             clicked = false
-        },200)
+        },500)
     })
     contextMenu(element,[
     {
