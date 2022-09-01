@@ -56,13 +56,16 @@ export function renderElement(parent,name,type, events = {})
         }
         else
         {
-            for(const item of elements)
+            if(!current.selected)
             {
-                item.element.classList.remove('element-selected')
-                item.selected = false
+                for(const item of elements)
+                {
+                    item.element.classList.remove('element-selected')
+                    item.selected = false
+                }
+                current.selected = true
+                element.classList.add('element-selected')
             }
-            current.selected = true
-            element.classList.add('element-selected')
         }
     })
     var clicked = false
