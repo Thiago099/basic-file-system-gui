@@ -1,7 +1,9 @@
-import { renderElement, dragTarget } from './file-system-element'
+import { renderElement, dragTarget, elements } from './file-system-element'
 
 import './file-system.css'
+const ctx= {source:null,indexes:[],type:null}
 export function fileSystem(element, data) {
+    
     const control = document.createElement('div')
     control.classList.add('path-control')
     element.appendChild(control)
@@ -43,6 +45,51 @@ export function fileSystem(element, data) {
     }
     function render(data)
     {
+        document.onkeyup = (e) =>{
+            if(e.ctrlKey)
+            {
+                if(e.key == 'x')
+                {
+                    ctx.source = data
+                    ctx.type = 'cut'
+                    ctx.indexes = []
+                    for(const index in elements)
+                    {
+                        if(elements[index].selected)
+                        {
+                            elements[index].cropped = true
+                            elements[index].sub.classList.add('element-cropped')
+                            ctx.indexes.push(index)
+                        }
+                        else
+                        {
+                            elements[index].cropped = false
+                            elements[index].sub.classList.remove('element-cropped')
+                        }
+                    }
+                }
+                if(e.key == 'c')
+                {
+                    ctx.source = data
+                    ctx.type = 'copy'
+                    ctx.elements = elements.filter(x => x.selected)
+                }
+                if(e.key == 'v')
+                {
+                    if(ctx.type == 'cut')
+                    {
+                        console.log(ctx.indexes)
+                        for (var i = ctx.indexes.length -1; i >= 0; i--)
+                        {
+                            const current = ctx.source[ctx.indexes[i]]
+                            ctx.source.splice(ctx.indexes[i],1)
+                            data.push(current)
+                        }
+                        render(data)
+                    }
+                    }
+            }
+        }
         data = data.sort((a,b)=>{
             // make folders appear first
             if(a.type == 'folder' && b.type == 'file')
@@ -69,6 +116,7 @@ export function fileSystem(element, data) {
             'file':(item) => alert(item.name)
         }
         view.innerHTML = ''
+        elements.splice(0,elements.length)
         for(const item in data)
         {
             const events = {
@@ -100,11 +148,11 @@ export function fileSystem(element, data) {
                     }
                     
                     render(data)
-                }
+                },
             }
             renderElement(view,data[item].name, data[item].type,item,events)
-        
         }
+        // clear elements array
     }
 }
 

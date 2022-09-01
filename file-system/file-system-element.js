@@ -6,30 +6,39 @@ const types = {
 'folder': ['fa-solid','fa-folder','folder-icon','icon'],
 'file': ['fa-solid','fa-file','file-icon','icon'],
 }
-const elements = []
+export const elements = []
 export const dragTarget = {value:null}
+
+
 export function renderElement(parent,name,type,index, events = {})
 {
+    
     const element = document.createElement('div')
+    element.classList.add('element')
+    const sub = document.createElement('div')
+    element.appendChild(sub)
     // on drag start
 
     element.draggable = true
     
-    element.classList.add('element')
+    sub.classList.add('sub')
     const elementIcon = document.createElement('i')
     elementIcon.classList.add(...types[type])
-    element.appendChild(elementIcon)
+    sub.appendChild(elementIcon)
     const elementName = document.createElement('div')
     elementName.classList.add('element-name')
     elementName.innerText = name
-    element.appendChild(elementName)
+    sub.appendChild(elementName)
     parent.appendChild(element)
-    const current = {element,index,selected:false}
+    const current = {element,sub,index,selected:false,cropped:false}
     elements.push(current)
     
     element.addEventListener('mousedown',(e) =>{
         e.stopPropagation()
     })
+    // ctrl + x
+    
+            
 
     element.addEventListener('click',(e) =>{
         if(ctrlPressed)

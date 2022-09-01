@@ -15,10 +15,13 @@
   margin-top: 0.5em;
   
 }
-.element{
-  display:inline-flex;
+.sub{
+  display:flex;
   flex-direction: column;
   width: 80px;
+}
+.element{
+  display: inline-flex;
   overflow: hidden;
   cursor: pointer;
   border-radius: 0.5em;
@@ -32,3 +35,6 @@
   color: rgb(13, 107, 151);
 }
 
+.element-cropped{
+  opacity: 0.5;
+}
