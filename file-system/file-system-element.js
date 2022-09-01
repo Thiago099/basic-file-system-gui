@@ -34,6 +34,7 @@ export function renderElement(parent,name,type,index, events = {})
         elementName.draggable = false
         elementName.classList.add('element-name-edit')
         elementName.focus()
+        document.execCommand('selectAll',false,null)
         function cancelEditName(e)
         {
             // if not passed trough elementName
