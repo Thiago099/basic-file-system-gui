@@ -70,9 +70,15 @@ export function fileSystem(element, data) {
                 }
                 if(e.key == 'c')
                 {
-                    ctx.source = data
+                    ctx.source = []
                     ctx.type = 'copy'
-                    ctx.elements = elements.filter(x => x.selected)
+                    for(var i=0;i<elements.length;i++)
+                    {
+                        if(elements[i].selected)
+                        {
+                            ctx.source.push(data[i])
+                        }
+                    }
                 }
                 if(e.key == 'v')
                 {
@@ -87,7 +93,12 @@ export function fileSystem(element, data) {
                         }
                         render(data)
                     }
+                    if(ctx.type == 'copy')
+                    {
+                        data.push(...ctx.source)
+                        render(data)
                     }
+                }
             }
         }
         data = data.sort((a,b)=>{
@@ -123,8 +134,9 @@ export function fileSystem(element, data) {
                 open: (type) => {
                     actions[data[item].type](data[item])
                 },
-                delete: () => {
-                    alert('delete')
+                delete: (index) => {
+                    data.splice(index,1)
+                    render(data)
                 },
                 rename: () => {
                     alert('rename')

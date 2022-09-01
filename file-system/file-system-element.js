@@ -130,7 +130,7 @@ export function renderElement(parent,name,type,index, events = {})
         text:'<span style="color:#c00"><i class="fa-solid fa-trash"></i> Delete</span>',
         event:()=>{
             if("delete" in events)
-            events["delete"]()
+            events["delete"](index)
         }
     }],
     ()=>{
