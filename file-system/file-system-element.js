@@ -30,11 +30,29 @@ export function renderElement(parent,name,type, events = {})
     element.addEventListener('mousedown',(e) =>{
         e.stopPropagation()
     })
+
     element.addEventListener('click',(e) =>{
         if(ctrlPressed)
         {
             current.selected = !current.selected
             element.classList.toggle('element-selected')
+        }
+        else
+        {
+            for(const item of elements)
+            {
+                item.element.classList.remove('element-selected')
+                item.selected = false
+            }
+            current.selected = true
+            element.classList.add('element-selected')
+        }
+    })
+    element.addEventListener('dragstart',(e) =>{
+        if(ctrlPressed)
+        {
+            current.selected = true
+            element.classList.add('element-selected')
         }
         else
         {
