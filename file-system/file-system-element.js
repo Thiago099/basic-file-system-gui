@@ -28,6 +28,29 @@ export function renderElement(parent,name,type,index, events = {})
     const elementName = document.createElement('div')
     elementName.classList.add('element-name')
     elementName.innerText = name
+    function editName()
+    {
+        elementName.setAttribute('contenteditable',true)
+        elementName.draggable = false
+        elementName.classList.add('element-name-edit')
+        elementName.focus()
+        function cancelEditName(e)
+        {
+            // if not passed trough elementName
+            if(!elementName.contains(e.target))
+            {
+                elementName.setAttribute('contenteditable',false)
+                elementName.draggable = true
+                elementName.classList.remove('element-name-edit')
+            }
+            document.removeEventListener('mousedown',cancelEditName)
+        }
+        document.addEventListener('mousedown',cancelEditName)
+    }
+    
+
+    
+
     sub.appendChild(elementName)
     parent.appendChild(element)
     const current = {element,sub,index,selected:false,cropped:false}
@@ -123,7 +146,7 @@ export function renderElement(parent,name,type,index, events = {})
         text:'<i class="fa-solid fa-pen"></i> Rename',
         event:()=>{
             if("rename" in events)
-            events["rename"]()
+            editName()
         }
     },
     {

@@ -95,7 +95,7 @@ export function fileSystem(element, data) {
                     }
                     if(ctx.type == 'copy')
                     {
-                        data.push(JSON.parse(JSON.stringify(...ctx.source)))
+                        data.push(...JSON.parse(JSON.stringify(ctx.source)))
                         render(data)
                     }
                 }
