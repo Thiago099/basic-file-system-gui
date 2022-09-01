@@ -11,7 +11,10 @@ const elements = []
 export function renderElement(parent,name,type, events = {})
 {
     const element = document.createElement('div')
+    // on drag start
+
     element.draggable = true
+    
     element.classList.add('element')
     const elementIcon = document.createElement('i')
     elementIcon.classList.add(...types[type])
@@ -24,7 +27,26 @@ export function renderElement(parent,name,type, events = {})
     const current = {element,selected:false}
     elements.push(current)
     
-    
+    element.addEventListener('mousedown',(e) =>{
+        e.stopPropagation()
+    })
+    element.addEventListener('click',(e) =>{
+        if(ctrlPressed)
+        {
+            current.selected = !current.selected
+            element.classList.toggle('element-selected')
+        }
+        else
+        {
+            for(const item of elements)
+            {
+                item.element.classList.remove('element-selected')
+                item.selected = false
+            }
+            current.selected = true
+            element.classList.add('element-selected')
+        }
+    })
     element.addEventListener('dblclick', ev => {
         if("open" in events)
         events["open"]()
@@ -34,7 +56,7 @@ export function renderElement(parent,name,type, events = {})
         text:'<span style="color:#0c0"><i class="fa-solid fa-play"></i> Open</span>',
         event:()=>{
             if("open" in events)
-            events["open"]()
+            events["open"](type)
         }
     },
     {

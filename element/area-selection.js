@@ -21,6 +21,7 @@ export function areaSelectionTool(callback)
         rectangle.style.width = width + 'px'
         rectangle.style.height = height + 'px'
     }
+    var valid = false
     function mousemove(ev)
     {
         const {clientX, clientY} = ev
@@ -52,6 +53,7 @@ export function areaSelectionTool(callback)
     document.addEventListener('mousedown', (ev)=>{
         if(ev.button === 0)
         {
+            valid = true
             ev.preventDefault()
             const {clientX, clientY} = ev
             x = clientX
@@ -67,6 +69,8 @@ export function areaSelectionTool(callback)
     
     })
     document.addEventListener('mouseup',(ev)=>{
+        if(!valid) return
+        valid = false
         const {clientX, clientY} = ev
         let left, top, right, bottom
         if(clientX > x)

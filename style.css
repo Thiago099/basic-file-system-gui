@@ -1,0 +1,14 @@
+.path-item{
+    padding: 10px;
+    margin-bottom: 10px;    
+    cursor: pointer;
+}
+.path-item:hover{
+    background-color: #f5f5f5;
+}
+.path-control{
+    border-radius: 5px;
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+}
