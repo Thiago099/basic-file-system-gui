@@ -7,8 +7,8 @@ const types = {
 'file': ['fa-solid','fa-file','file-icon','icon'],
 }
 const elements = []
-
-export function renderElement(parent,name,type, events = {})
+export const dragTarget = {value:null}
+export function renderElement(parent,name,type,index, events = {})
 {
     const element = document.createElement('div')
     // on drag start
@@ -24,7 +24,7 @@ export function renderElement(parent,name,type, events = {})
     elementName.innerText = name
     element.appendChild(elementName)
     parent.appendChild(element)
-    const current = {element,selected:false}
+    const current = {element,index,selected:false}
     elements.push(current)
     
     element.addEventListener('mousedown',(e) =>{
@@ -67,6 +67,28 @@ export function renderElement(parent,name,type, events = {})
                 element.classList.add('element-selected')
             }
         }
+    })
+    element.addEventListener('dragover',(e) =>{
+        if(!current.selected && type == 'folder')
+        {
+            dragTarget.value = {index,type:'sibling'}
+            // allow drop
+            e.preventDefault()
+                
+        }
+    })
+    element.addEventListener('dragleave',(e) =>{
+        dragTarget.value = null
+    })
+    element.addEventListener('dragend',(e) =>{
+        if(dragTarget.value != null)
+        {
+            events['drop'](
+                dragTarget.value.type,
+                dragTarget.value.index,
+                elements.filter(item => item.selected).map(item => item.index))
+        }
+        dragTarget.value = null
     })
     var clicked = false
     element.addEventListener('click',(e) =>{
