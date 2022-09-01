@@ -47,9 +47,17 @@ export function renderElement(parent,name,type, events = {})
             element.classList.add('element-selected')
         }
     })
-    element.addEventListener('dblclick', ev => {
-        if("open" in events)
-        events["open"]()
+    var clicked = false
+    element.addEventListener('click',(e) =>{
+        if(clicked)
+        {
+            if("open" in events)
+            events["open"]()
+        }
+        clicked = true
+        setTimeout(()=>{
+            clicked = false
+        },200)
     })
     contextMenu(element,[
     {
