@@ -302,6 +302,23 @@ export function fileSystem(element, data) {
         }
         // clear elements array
     }
+    document.addEventListener('keydown',(e)=>{
+        debugger    
+        // if ctrl + a is pressed
+        if(e.ctrlKey || e.metaKey)
+        {
+            if(e.key == 'a')
+            {
+                e.preventDefault()
+                e.stopPropagation()
+                for(const element of elements)
+                {
+                    element.selected = true
+                    element.element.classList.add('element-selected')
+                }
+            }
+        }
+    })
     
 }
 
