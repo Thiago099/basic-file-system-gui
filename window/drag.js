@@ -1,6 +1,6 @@
 //  source https://www.w3schools.com/howto/howto_js_draggable.asp
 // editer by me
-export default function dragElement(element, header = null) {
+export function dragElement(element, header = null) {
     var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
     const drag_handle = header || element;
     drag_handle.onmousedown = dragMouseDown;

@@ -49,19 +49,20 @@ const structure = [
 ]
 
 import { fileSystem } from './file-system/file-system'
-const app = document.querySelector('#app')
-const window = document.querySelector('#window')
-const header = document.querySelector('#header')
-import './window.css'
-import resizeElement from './window/resize'
-import dragElement from './window/drag'
-const buttons = document.getElementsByClassName('nav-button')
-for(const button of buttons)
-{
-    button.addEventListener('mousedown',e=>{
-        e.stopPropagation()
-    })
-}
-dragElement(window, header);
-resizeElement(window);   
-fileSystem(app, structure)
+// const app = document.querySelector('#app')
+// const window = document.querySelector('#window')
+// const header = document.querySelector('#header')
+// import './window.css'
+// import resizeElement from './window/resize'
+// import dragElement from './window/drag'
+// const buttons = document.getElementsByClassName('nav-button')
+// for(const button of buttons)
+// {
+//     button.addEventListener('mousedown',e=>{
+//         e.stopPropagation()
+//     })
+// }
+// dragElement(window, header);
+// resizeElement(window);   
+import {window} from './window/window'
+fileSystem(window("My Window"), structure)

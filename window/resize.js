@@ -1,4 +1,4 @@
-export default function resizeElement(element, minW = 100, minH = 100, size = 20)
+export function resizeElement(element, minW = 100, minH = 100, size = 20)
 {
     const top = document.createElement('div');
     top.style.width = '100%';
