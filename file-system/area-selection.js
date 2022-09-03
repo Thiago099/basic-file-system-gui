@@ -1,10 +1,10 @@
 import './area-selection.css'
-export function areaSelectionTool(callback)
+export function areaSelectionTool(element, callback)
 {
     var rectangle = document.createElement('div')
     rectangle.classList.add('rectangle')
     rectangle.style.display = 'none'
-    document.body.appendChild(rectangle)
+    element.appendChild(rectangle)
     
     var x = 0
     var y = 0
@@ -49,7 +49,7 @@ export function areaSelectionTool(callback)
         update_rectangle()
         
     }
-    document.addEventListener('mousedown', (ev)=>{
+    element.addEventListener('mousedown', (ev)=>{
         if(ev.button === 0)
         {
             valid = true

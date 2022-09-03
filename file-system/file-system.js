@@ -1,10 +1,94 @@
 import { contextMenu } from './context-menu'
 import { renderElement, dragTarget, elements } from './file-system-element'
+import {areaSelectionTool} from './area-selection.js'
 
 import './file-system.css'
 const ctx= {source:null,indexes:[],type:null}
 export function fileSystem(element, data) {
+    var ctrlPressed = false
+    document.addEventListener('keydown',ev=>{
+        if(ev.key === 'Control')
+        {
+            ctrlPressed = true
+        }
+    })
+    document.addEventListener('keyup',ev=>{
+    if(ev.key === 'Control')
+        {
+            ctrlPressed = false
+        }
+    })
+
+    document.addEventListener('visibilitychange',()=>{
+        if(document.visibilityState === 'visible')
+        {
+            ctrlPressed = false
+        }
+    })
+
+    var selected = false
+    document.addEventListener('click',(e)=>{
+        if(selected)
+        {
+            selected = false
+            return
+        }
+        // if it passed trought any element return
+        for(const element of elements)
+        {
+            if(element.element.contains(e.target))
+            {
+                return
+            }
+        }
+        for(const element of elements)
+        {
+            element.element.classList.remove('element-selected')
+            element.selected = false
+        }
+    })
     
+    areaSelectionTool(element,(left,top,right,bottom)=>{
+        selected = true
+        // if it did not passed trough the menu
+        
+        for(const current of elements)
+        {
+            const element = current.element
+            var rect = element.getBoundingClientRect();
+            // get element left top right and bottom
+            const [offsetLeft,offsetTop,offsetWidth,offsetHeight] = [rect.left,rect.top,rect.width,rect.height]
+            if(offsetLeft > right || offsetLeft + offsetWidth < left || offsetTop > bottom || offsetTop + offsetHeight < top)
+            {
+                if(!ctrlPressed)
+                {
+                    current.selected = false
+                    element.classList.remove('element-selected')
+                }
+                }
+                else
+                {
+                    if(ctrlPressed)
+                    {
+                        if(element.classList.contains('element-selected'))
+                        {
+                            element.classList.remove('element-selected')
+                            current.selected = false
+                        }
+                        else
+                        {
+                            element.classList.add('element-selected')
+                            current.selected = true
+                        }
+                    }
+                    else
+                    {
+                        element.classList.add('element-selected')
+                        current.selected = true
+                    }
+            }
+        }
+    })
     const control = document.createElement('div')
     control.classList.add('path-control')
     element.appendChild(control)

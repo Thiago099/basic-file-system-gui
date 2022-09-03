@@ -1,6 +1,6 @@
 import './context-menu.css';
 const menus = []
-export function contextMenu(element, items, onopen)
+export function contextMenu(element, items, onopen=()=>{})
 {
     const menu = document.createElement('div')
     menus.push(menu)

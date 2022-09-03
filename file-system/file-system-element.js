@@ -188,7 +188,6 @@ export function renderElement(parent,name,type,index, events = {})
         }
     })
 }
-import {areaSelectionTool} from './area-selection.js'
 
 var ctrlPressed = false
 document.addEventListener('keydown',ev=>{
@@ -208,66 +207,5 @@ document.addEventListener('visibilitychange',()=>{
     if(document.visibilityState === 'visible')
     {
         ctrlPressed = false
-    }
-})
-document.addEventListener('click',(e)=>{
-    if(selected)
-    {
-        selected = false
-        return
-    }
-    // if it passed trought any element return
-    for(const element of elements)
-    {
-        if(element.element.contains(e.target))
-        {
-            return
-        }
-    }
-    for(const element of elements)
-    {
-        element.element.classList.remove('element-selected')
-        element.selected = false
-    }
-})
-var selected = false
-areaSelectionTool((left,top,right,bottom)=>{
-    selected = true
-    // if it did not passed trough the menu
-    
-    for(const current of elements)
-    {
-        const element = current.element
-        // get element left top right and bottom
-        const {offsetLeft,offsetTop,offsetWidth,offsetHeight} = element
-        if(offsetLeft > right || offsetLeft + offsetWidth < left || offsetTop > bottom || offsetTop + offsetHeight < top)
-        {
-            if(!ctrlPressed)
-            {
-                current.selected = false
-                element.classList.remove('element-selected')
-            }
-            }
-            else
-            {
-                if(ctrlPressed)
-                {
-                    if(element.classList.contains('element-selected'))
-                    {
-                        element.classList.remove('element-selected')
-                        current.selected = false
-                    }
-                    else
-                    {
-                        element.classList.add('element-selected')
-                        current.selected = true
-                    }
-                }
-                else
-                {
-                    element.classList.add('element-selected')
-                    current.selected = true
-                }
-        }
     }
 })
