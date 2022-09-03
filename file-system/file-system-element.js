@@ -34,7 +34,12 @@ export function renderElement(parent,name,type,index, events = {})
         elementName.draggable = false
         elementName.classList.add('element-name-edit')
         elementName.focus()
-        document.execCommand('selectAll',false,null)
+        // select all text
+        const range = document.createRange();
+        const selection = window.getSelection();
+        range.selectNodeContents(elementName);
+        selection.removeAllRanges();
+        selection.addRange(range);  
         function cancelEditName(e)
         {
             // if not passed trough elementName
@@ -43,9 +48,18 @@ export function renderElement(parent,name,type,index, events = {})
                 elementName.setAttribute('contenteditable',false)
                 elementName.draggable = true
                 elementName.classList.remove('element-name-edit')
+                document.removeEventListener('mousedown',cancelEditName)
             }
-            document.removeEventListener('mousedown',cancelEditName)
         }
+        elementName.addEventListener('keydown',e=>{
+            if(e.key === 'Enter')
+            {
+                elementName.setAttribute('contenteditable',false)
+                elementName.draggable = true
+                elementName.classList.remove('element-name-edit')
+                document.removeEventListener('mousedown',cancelEditName)
+            }
+        })
         document.addEventListener('mousedown',cancelEditName)
     }
     
@@ -153,7 +167,6 @@ export function renderElement(parent,name,type,index, events = {})
     {
         text:'<i class="fa-solid fa-pen"></i> Rename',
         event:()=>{
-            if("rename" in events)
             editName()
         }
     },
