@@ -218,7 +218,7 @@ export function fileSystem(element, data) {
                     render(data)
                 },
             }
-            renderElement(view,data[item].name, data[item].type,item,events)
+            renderElement(view,data[item].name, data[item].type,item,events,data,render)
         }
         contextMenu(document.body,[
             {

@@ -10,7 +10,7 @@ export const elements = []
 export const dragTarget = {value:null}
 
 var menu = null
-export function renderElement(parent,name,type,index, events = {})
+export function renderElement(parent,name,type,index, events = {},data)
 {
     
     const element = document.createElement('div')
@@ -39,25 +39,27 @@ export function renderElement(parent,name,type,index, events = {})
         const selection = window.getSelection();
         range.selectNodeContents(elementName);
         selection.removeAllRanges();
-        selection.addRange(range);  
+        selection.addRange(range); 
+        function finishEditing()
+        {
+            elementName.setAttribute('contenteditable',false)
+            elementName.draggable = true
+            elementName.classList.remove('element-name-edit')
+            document.removeEventListener('mousedown',cancelEditName)
+            data[index].name = elementName.innerText
+        } 
         function cancelEditName(e)
         {
             // if not passed trough elementName
             if(!elementName.contains(e.target))
             {
-                elementName.setAttribute('contenteditable',false)
-                elementName.draggable = true
-                elementName.classList.remove('element-name-edit')
-                document.removeEventListener('mousedown',cancelEditName)
+                finishEditing()
             }
         }
         elementName.addEventListener('keydown',e=>{
             if(e.key === 'Enter')
             {
-                elementName.setAttribute('contenteditable',false)
-                elementName.draggable = true
-                elementName.classList.remove('element-name-edit')
-                document.removeEventListener('mousedown',cancelEditName)
+                finishEditing()
             }
         })
         document.addEventListener('mousedown',cancelEditName)
