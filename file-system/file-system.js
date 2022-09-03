@@ -44,62 +44,7 @@ export function fileSystem(element, data) {
             control.appendChild(button)
         }
     }
-    function cut()
-    {
-        ctx.source = data
-        ctx.type = 'cut'
-        ctx.indexes = []
-        for(const index in elements)
-        {
-            if(elements[index].selected)
-            {
-                elements[index].cropped = true
-                elements[index].sub.classList.add('element-cropped')
-                ctx.indexes.push(index)
-            }
-            else
-            {
-                elements[index].cropped = false
-                elements[index].sub.classList.remove('element-cropped')
-            }
-        }
-    }
-    function copy()
-    {
-        ctx.source = []
-        ctx.type = 'copy'
-        for(const index in elements)
-        {
-            elements[index].cropped = false
-            elements[index].sub.classList.remove('element-cropped')
-        }
-        for(var i=0;i<elements.length;i++)
-        {
-            if(elements[i].selected)
-            {
-                ctx.source.push(data[i])
-            }
-        }
-    }
-    function paste()
-    {
-        if(ctx.type == 'cut')
-        {
-            console.log(ctx.indexes)
-            for (var i = ctx.indexes.length -1; i >= 0; i--)
-            {
-                const current = ctx.source[ctx.indexes[i]]
-                ctx.source.splice(ctx.indexes[i],1)
-                data.push(current)
-            }
-            render(data)
-        }
-        if(ctx.type == 'copy')
-        {
-            data.push(...JSON.parse(JSON.stringify(ctx.source)))
-            render(data)
-        }
-    }
+    
     function render(data)
     {
         document.onkeyup = (e) =>{
@@ -215,6 +160,62 @@ export function fileSystem(element, data) {
                 }
             }
         ])
+        function cut()
+        {
+            ctx.source = data
+            ctx.type = 'cut'
+            ctx.indexes = []
+            for(const index in elements)
+            {
+                if(elements[index].selected)
+                {
+                    elements[index].cropped = true
+                    elements[index].sub.classList.add('element-cropped')
+                    ctx.indexes.push(index)
+                }
+                else
+                {
+                    elements[index].cropped = false
+                    elements[index].sub.classList.remove('element-cropped')
+                }
+            }
+        }
+        function copy()
+        {
+            ctx.source = []
+            ctx.type = 'copy'
+            for(const index in elements)
+            {
+                elements[index].cropped = false
+                elements[index].sub.classList.remove('element-cropped')
+            }
+            for(var i=0;i<elements.length;i++)
+            {
+                if(elements[i].selected)
+                {
+                    ctx.source.push(data[i])
+                }
+            }
+        }
+        function paste()
+        {
+            if(ctx.type == 'cut')
+            {
+                console.log(ctx.indexes)
+                for (var i = ctx.indexes.length -1; i >= 0; i--)
+                {
+                    const current = ctx.source[ctx.indexes[i]]
+                    ctx.source.splice(ctx.indexes[i],1)
+                    data.push(current)
+                }
+                render(data)
+            }
+            if(ctx.type == 'copy')
+            {
+                data.push(...JSON.parse(JSON.stringify(ctx.source)))
+                render(data)
+            }
+        }
         // clear elements array
     }
     
