@@ -1,5 +1,4 @@
 import './area-selection.css'
-
 export function areaSelectionTool(callback)
 {
     var rectangle = document.createElement('div')
@@ -98,7 +97,8 @@ export function areaSelectionTool(callback)
         document.removeEventListener('mousemove', mousemove)
         drag = false
         update_rectangle()
-        rectangle.style.display = 'none'
+        if(rectangle.style.display === 'block')
         callback(left, top, right, bottom)
+        rectangle.style.display = 'none'
     })
 }

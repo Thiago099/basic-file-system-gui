@@ -9,7 +9,7 @@ const types = {
 export const elements = []
 export const dragTarget = {value:null}
 
-
+var menu = null
 export function renderElement(parent,name,type,index, events = {})
 {
     
@@ -135,7 +135,7 @@ export function renderElement(parent,name,type,index, events = {})
             clicked = false
         },500)
     })
-    contextMenu(element,[
+    menu = contextMenu(element,[
     {
         text:'<span style="color:#0c0"><i class="fa-solid fa-play"></i> Open</span>',
         event:()=>{
@@ -148,6 +148,22 @@ export function renderElement(parent,name,type,index, events = {})
         event:()=>{
             if("rename" in events)
             editName()
+        }
+    },
+    // copy
+    {
+        text:'<i class="fa-solid fa-copy"></i> Copy',
+        event:()=>{
+            if("copy" in events)
+            events["copy"]()
+        }
+    },
+    // cut
+    {
+        text:'<i class="fa-solid fa-cut"></i> Cut',
+        event:()=>{
+            if("cut" in events)
+            events["cut"]()
         }
     },
     {
@@ -192,7 +208,31 @@ document.addEventListener('visibilitychange',()=>{
         ctrlPressed = false
     }
 })
+document.addEventListener('click',(e)=>{
+    if(selected)
+    {
+        selected = false
+        return
+    }
+    // if it passed trought any element return
+    for(const element of elements)
+    {
+        if(element.element.contains(e.target))
+        {
+            return
+        }
+    }
+    for(const element of elements)
+    {
+        element.element.classList.remove('element-selected')
+        element.selected = false
+    }
+})
+var selected = false
 areaSelectionTool((left,top,right,bottom)=>{
+    selected = true
+    // if it did not passed trough the menu
+    
     for(const current of elements)
     {
         const element = current.element

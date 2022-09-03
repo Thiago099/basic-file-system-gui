@@ -43,42 +43,55 @@ export function fileSystem(element, data) {
             control.appendChild(button)
         }
     }
+    function cut()
+    {
+        ctx.source = data
+        ctx.type = 'cut'
+        ctx.indexes = []
+        for(const index in elements)
+        {
+            if(elements[index].selected)
+            {
+                elements[index].cropped = true
+                elements[index].sub.classList.add('element-cropped')
+                ctx.indexes.push(index)
+            }
+            else
+            {
+                elements[index].cropped = false
+                elements[index].sub.classList.remove('element-cropped')
+            }
+        }
+    }
+    function copy()
+    {
+        ctx.source = []
+        ctx.type = 'copy'
+        for(const index in elements)
+        {
+            elements[index].cropped = false
+            elements[index].sub.classList.remove('element-cropped')
+        }
+        for(var i=0;i<elements.length;i++)
+        {
+            if(elements[i].selected)
+            {
+                ctx.source.push(data[i])
+            }
+        }
+    }
     function render(data)
     {
         document.onkeyup = (e) =>{
-            if(e.ctrlKey)
+            if(e.ctrlKey || e.metaKey)
             {
                 if(e.key == 'x')
                 {
-                    ctx.source = data
-                    ctx.type = 'cut'
-                    ctx.indexes = []
-                    for(const index in elements)
-                    {
-                        if(elements[index].selected)
-                        {
-                            elements[index].cropped = true
-                            elements[index].sub.classList.add('element-cropped')
-                            ctx.indexes.push(index)
-                        }
-                        else
-                        {
-                            elements[index].cropped = false
-                            elements[index].sub.classList.remove('element-cropped')
-                        }
-                    }
+                    cut()
                 }
                 if(e.key == 'c')
                 {
-                    ctx.source = []
-                    ctx.type = 'copy'
-                    for(var i=0;i<elements.length;i++)
-                    {
-                        if(elements[i].selected)
-                        {
-                            ctx.source.push(data[i])
-                        }
-                    }
+                    copy()
                 }
                 if(e.key == 'v')
                 {
@@ -98,6 +111,11 @@ export function fileSystem(element, data) {
                         data.push(...JSON.parse(JSON.stringify(ctx.source)))
                         render(data)
                     }
+                }
+                if(e.key == 'a')
+                {
+                    e.preventDefault()
+                    e.stopPropagation()
                 }
             }
         }
@@ -138,9 +156,13 @@ export function fileSystem(element, data) {
                     data.splice(index,1)
                     render(data)
                 },
-                rename: () => {
-                    alert('rename')
+                copy: () => {
+                    copy()
                 },
+                cut: () => {
+                    cut()
+                },
+
                 drop: (type, target, source) => {
                     // remove all index from source
                     var targetItem

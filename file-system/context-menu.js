@@ -10,7 +10,11 @@ export function contextMenu(element, items, onopen)
         const menuItem = document.createElement('div')
         menuItem.classList.add('menu-item')
         menuItem.innerHTML = item.text
-        menuItem.addEventListener('click', ()=>item.event())
+        menuItem.addEventListener('click', (e)=>{
+            e.stopPropagation()
+            menu.style.display = 'none'
+            item.event()
+        })
         menu.appendChild(menuItem)
     }
 
@@ -48,6 +52,8 @@ export function contextMenu(element, items, onopen)
     // close the menu on document click
     // TODO verify if the click is in the menu boundaries
     document.addEventListener("click", function(e){
+        
         menu.style.display = 'none';
     });
+    return menu
 }
