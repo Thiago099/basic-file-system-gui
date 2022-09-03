@@ -1,3 +1,4 @@
+import { contextMenu } from './context-menu'
 import { renderElement, dragTarget, elements } from './file-system-element'
 
 import './file-system.css'
@@ -80,6 +81,25 @@ export function fileSystem(element, data) {
             }
         }
     }
+    function paste()
+    {
+        if(ctx.type == 'cut')
+        {
+            console.log(ctx.indexes)
+            for (var i = ctx.indexes.length -1; i >= 0; i--)
+            {
+                const current = ctx.source[ctx.indexes[i]]
+                ctx.source.splice(ctx.indexes[i],1)
+                data.push(current)
+            }
+            render(data)
+        }
+        if(ctx.type == 'copy')
+        {
+            data.push(...JSON.parse(JSON.stringify(ctx.source)))
+            render(data)
+        }
+    }
     function render(data)
     {
         document.onkeyup = (e) =>{
@@ -95,22 +115,7 @@ export function fileSystem(element, data) {
                 }
                 if(e.key == 'v')
                 {
-                    if(ctx.type == 'cut')
-                    {
-                        console.log(ctx.indexes)
-                        for (var i = ctx.indexes.length -1; i >= 0; i--)
-                        {
-                            const current = ctx.source[ctx.indexes[i]]
-                            ctx.source.splice(ctx.indexes[i],1)
-                            data.push(current)
-                        }
-                        render(data)
-                    }
-                    if(ctx.type == 'copy')
-                    {
-                        data.push(...JSON.parse(JSON.stringify(ctx.source)))
-                        render(data)
-                    }
+                    paste()
                 }
                 if(e.key == 'a')
                 {
@@ -186,7 +191,32 @@ export function fileSystem(element, data) {
             }
             renderElement(view,data[item].name, data[item].type,item,events)
         }
+        contextMenu(document.body,[
+            {
+                text: '<i class="fas fa-folder"></i> New Folder',
+                event: () => {
+                    data.push({name:'New Folder',type:'folder',children:[]})
+                    render(data)
+                }
+            },
+            {
+                text: '<i class="fas fa-file"></i> New File',
+                event: () => {
+                    data.push({name:'New File',type:'file'})
+                    render(data)
+                }
+            },
+            'separator'
+            ,
+            {
+                text: '<i class="fas fa-paste"></i> Paste',
+                event: () => {
+                        paste()
+                }
+            }
+        ])
         // clear elements array
     }
+    
 }
 

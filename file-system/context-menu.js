@@ -1,20 +1,29 @@
 import './context-menu.css';
+const menus = []
 export function contextMenu(element, items, onopen)
 {
     const menu = document.createElement('div')
+    menus.push(menu)
     menu.classList.add('menu')
 
     for(const item of items)
     {
         
         const menuItem = document.createElement('div')
-        menuItem.classList.add('menu-item')
-        menuItem.innerHTML = item.text
-        menuItem.addEventListener('click', (e)=>{
-            e.stopPropagation()
-            menu.style.display = 'none'
-            item.event()
-        })
+        if(item == 'separator')
+        {
+            menuItem.classList.add('menu-separator')
+        }
+        else
+        {
+            menuItem.classList.add('menu-item')
+            menuItem.innerHTML = item.text
+            menuItem.addEventListener('click', (e)=>{
+                e.stopPropagation()
+                menu.style.display = 'none'
+                item.event()
+            })
+        }
         menu.appendChild(menuItem)
     }
 
@@ -41,6 +50,11 @@ export function contextMenu(element, items, onopen)
 
     element.addEventListener("contextmenu", function(e) {      
         e.preventDefault();         
+        e.stopPropagation();
+        for(const menu of menus)
+        {
+            menu.style.display = 'none'
+        }
         // show the menu        
         menu.style.display = 'block';
         // set the left and top position based on mouse event coordonates
@@ -55,5 +69,6 @@ export function contextMenu(element, items, onopen)
         
         menu.style.display = 'none';
     });
+
     return menu
 }

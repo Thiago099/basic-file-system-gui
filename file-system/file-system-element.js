@@ -144,12 +144,20 @@ export function renderElement(parent,name,type,index, events = {})
         }
     },
     {
+        text:'<span style="color:#c00"><i class="fa-solid fa-trash"></i> Delete</span>',
+        event:()=>{
+            if("delete" in events)
+            events["delete"](index)
+        }
+    },
+    {
         text:'<i class="fa-solid fa-pen"></i> Rename',
         event:()=>{
             if("rename" in events)
             editName()
         }
     },
+    'separator',
     // copy
     {
         text:'<i class="fa-solid fa-copy"></i> Copy',
@@ -165,14 +173,8 @@ export function renderElement(parent,name,type,index, events = {})
             if("cut" in events)
             events["cut"]()
         }
-    },
-    {
-        text:'<span style="color:#c00"><i class="fa-solid fa-trash"></i> Delete</span>',
-        event:()=>{
-            if("delete" in events)
-            events["delete"](index)
-        }
-    }],
+    }
+],
     ()=>{
         if(!current.selected)
         {

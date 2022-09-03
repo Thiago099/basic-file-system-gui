@@ -25,3 +25,8 @@
 .menu-item:hover{
     background-color: rgb(219, 239, 253);
 }
+
+.menu-separator{
+    padding: 0.2em 0;
+    background-color: rgb(213, 216, 216);
+}
